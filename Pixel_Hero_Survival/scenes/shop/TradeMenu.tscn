@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://bqpo5r1yutkf6"]
+[gd_scene format=3 uid="uid://bqpo5r1yutkf6"]
 
 [ext_resource type="Texture2D" uid="uid://d010jcospqex4" path="res://art/UI/Banners/Carved_9Slides.png" id="2_bvr5l"]
 [ext_resource type="AudioStream" uid="uid://dogkvyqf0s34a" path="res://sound/SFX/04_sack_open_2.wav" id="3_bvr5l"]
@@ -39,37 +39,37 @@ func _on_wood_button_pressed() -> void:
 		audio_stream.play()
 "
 
-[node name="TradeMenu" type="CanvasLayer"]
+[node name="TradeMenu" type="CanvasLayer" unique_id=1384947918]
 script = SubResource("GDScript_lkqge")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=867785529]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 289.0
-offset_top = 46.0
-offset_right = 289.0
-offset_bottom = 46.0
+offset_left = 212.0
+offset_top = -5.0
+offset_right = 212.0
+offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Control"]
+[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=1550356677]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 140.0
-offset_top = -350.0
+offset_top = -406.0
 offset_right = -566.0
-offset_bottom = -124.0
+offset_bottom = -180.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.85, 0.85)
 texture = ExtResource("2_bvr5l")
 
-[node name="Texto" type="Label" parent="Control/TextureRect2"]
+[node name="Texto" type="Label" parent="Control/TextureRect2" unique_id=2191596]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 12
@@ -85,16 +85,16 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 28
 text = "Hello Sir, How can I help you??"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1289947000]
 stream = ExtResource("3_bvr5l")
 
-[node name="GoldButton" type="Button" parent="."]
-offset_left = 500.0
-offset_top = 480.0
-offset_right = 688.0
-offset_bottom = 532.0
+[node name="GoldButton" type="Button" parent="." unique_id=863220027]
+offset_left = 423.0
+offset_top = 373.0
+offset_right = 611.0
+offset_bottom = 425.0
 
-[node name="Label" type="Label" parent="GoldButton"]
+[node name="Label" type="Label" parent="GoldButton" unique_id=1771760169]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 11.0
@@ -102,7 +102,7 @@ offset_right = 89.0
 offset_bottom = 43.0
 text = "Buy Gold"
 
-[node name="TextureRect" type="TextureRect" parent="GoldButton"]
+[node name="TextureRect" type="TextureRect" parent="GoldButton" unique_id=46981057]
 layout_mode = 0
 offset_left = 71.0
 offset_right = 135.0
@@ -110,7 +110,7 @@ offset_bottom = 64.0
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("6_ow1gs")
 
-[node name="Price" type="Label" parent="GoldButton"]
+[node name="Price" type="Label" parent="GoldButton" unique_id=1896137184]
 layout_mode = 0
 offset_left = 122.0
 offset_right = 173.0
@@ -120,13 +120,13 @@ text = "50
 "
 horizontal_alignment = 2
 
-[node name="WoodButton" type="Button" parent="."]
-offset_left = 500.0
-offset_top = 536.0
-offset_right = 686.0
-offset_bottom = 588.0
+[node name="WoodButton" type="Button" parent="." unique_id=767403517]
+offset_left = 423.0
+offset_top = 429.0
+offset_right = 609.0
+offset_bottom = 481.0
 
-[node name="Label" type="Label" parent="WoodButton"]
+[node name="Label" type="Label" parent="WoodButton" unique_id=388011887]
 layout_mode = 0
 offset_left = 10.0
 offset_top = 11.0
@@ -134,7 +134,7 @@ offset_right = 89.0
 offset_bottom = 43.0
 text = "Buy Wood"
 
-[node name="TextureRect" type="TextureRect" parent="WoodButton"]
+[node name="TextureRect" type="TextureRect" parent="WoodButton" unique_id=102477637]
 layout_mode = 0
 offset_left = 82.0
 offset_top = 1.0
@@ -143,7 +143,7 @@ offset_bottom = 65.0
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("7_bvr5l")
 
-[node name="Price" type="Label" parent="WoodButton"]
+[node name="Price" type="Label" parent="WoodButton" unique_id=345629970]
 layout_mode = 0
 offset_left = 121.0
 offset_top = 1.0
@@ -154,15 +154,15 @@ text = "50
 "
 horizontal_alignment = 2
 
-[node name="CLOSE" type="TextureButton" parent="."]
-offset_left = 700.0
-offset_top = 507.0
-offset_right = 900.0
-offset_bottom = 579.0
+[node name="CLOSE" type="TextureButton" parent="." unique_id=169541359]
+offset_left = 623.0
+offset_top = 400.0
+offset_right = 823.0
+offset_bottom = 472.0
 texture_normal = ExtResource("3_td31b")
 texture_pressed = ExtResource("4_2dbkq")
 
-[node name="Label" type="Label" parent="CLOSE"]
+[node name="Label" type="Label" parent="CLOSE" unique_id=1010466301]
 layout_mode = 0
 offset_left = 62.0
 offset_top = 3.0

@@ -5,6 +5,7 @@ const TECHIE = preload("uid://bx4dicnqdyccp")
 const KNIGHT = preload("uid://de3hhy02tqefk")
 const ARCHER = preload("uid://0g50ua6nypjf")
 
+@onready var wave_label: Label = $CanvasLayer/WaveLabel
 
 @onready var game_score: CanvasLayer = $"../GameScore"
 
@@ -144,7 +145,7 @@ func spawn_wave_enemies() -> void:
 	var center_fallback: Vector2 = (map_min + map_max) * 0.5
 
 	var health_multiplier: float = pow(1.1, wave - 1)
-	var damage_multiplier: float = pow(1.25, wave - 1)
+	var damage_multiplier: float = pow(1.0, wave - 1)
 
 	# chequeo básico: que el player exista y tenga posición
 	if not player:
@@ -187,9 +188,10 @@ func spawn_wave_enemies() -> void:
 		if enemy.has_method("scale_stats"):
 			enemy.scale_stats(health_multiplier, damage_multiplier)
 
-	print("Oleada %d -> Enemigos: %d | Vida x%.2f | Daño x%.2f" % [
+		var text = "Oleada %d -> Enemigos: %d | Vida x%.2f | Daño x%.2f" % [
 		wave, max_enemies, health_multiplier, damage_multiplier
-	])
+		]
+		wave_label.text = text
 
 
 func on_death():	

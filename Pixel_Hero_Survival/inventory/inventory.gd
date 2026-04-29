@@ -10,7 +10,8 @@ var inventory = {} ## ESENCIAL ##
 
 func _on_area_entered(area: Area2D) -> void:
 	if area is Item:
-		add_item_to_inventory(area)
+		#add_item_to_inventory(area)
+		world.gold += 25
 		area.collect_item()	
 
 func add_item_to_inventory(item: Item):

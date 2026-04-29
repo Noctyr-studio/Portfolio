@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=3 uid="uid://c4kqxardye58q"]
+[gd_scene format=3 uid="uid://c4kqxardye58q"]
 
 [ext_resource type="Script" uid="uid://dcmg4jautpp6a" path="res://scenes/hero/player.gd" id="1_3li8b"]
 [ext_resource type="Texture2D" uid="uid://ccjapvn2jpagq" path="res://art/Factions/Knights/Troops/Warrior/Purple/Warrior_Purple.png" id="1_4kcxx"]
@@ -567,74 +567,74 @@ size = Vector2(94.0391, 76.125)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mdl7e"]
 size = Vector2(101, 93.5)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=181324318]
 y_sort_enabled = true
 collision_mask = 15
 script = ExtResource("1_3li8b")
 projectile_scene = ExtResource("2_s2xcf")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=328344518]
 position = Vector2(0, -2)
 sprite_frames = SubResource("SpriteFrames_gp031")
 animation = &"idle_L&R"
 autoplay = "idle_L&R"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2074918984]
 position = Vector2(3, 9)
 shape = SubResource("CapsuleShape2D_ixa2j")
 debug_color = Color(0.540203, 0.567474, 3.85046e-07, 0.42)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1601953558]
 rotation = -0.0004316583
 
-[node name="INV" type="Area2D" parent="."]
+[node name="INV" type="Area2D" parent="." unique_id=872611128]
 script = ExtResource("4_cw2d6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="INV"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="INV" unique_id=1229494859]
 position = Vector2(3, 9)
 shape = SubResource("CircleShape2D_khinc")
 
-[node name="Area_L&R" type="Area2D" parent="."]
+[node name="Area_L&R" type="Area2D" parent="." unique_id=950088602]
 collision_mask = 14
 
-[node name="CollisionLeft&Right" type="CollisionShape2D" parent="Area_L&R"]
+[node name="CollisionLeft&Right" type="CollisionShape2D" parent="Area_L&R" unique_id=1943747834]
 position = Vector2(46.9804, 0)
 shape = SubResource("RectangleShape2D_3cqap")
 debug_color = Color(0.0806216, 0.167996, 0.49673, 0.42)
 
-[node name="Area_U&D" type="Area2D" parent="."]
+[node name="Area_U&D" type="Area2D" parent="." unique_id=713286001]
 collision_mask = 14
 
-[node name="CollisionUp&Down" type="CollisionShape2D" parent="Area_U&D"]
+[node name="CollisionUp&Down" type="CollisionShape2D" parent="Area_U&D" unique_id=2064889455]
 position = Vector2(0.5, -46.75)
 shape = SubResource("RectangleShape2D_mdl7e")
 debug_color = Color(0.946605, 0.174212, 0.39312, 0.42)
 
-[node name="DashCooldown" type="Timer" parent="."]
+[node name="DashCooldown" type="Timer" parent="." unique_id=2032856007]
 
-[node name="AudioStreamPlayerATK-1" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayerATK-1" type="AudioStreamPlayer" parent="." unique_id=514256947]
 stream = ExtResource("4_qu4a1")
 bus = &"SFX"
 
-[node name="AudioStreamPlayerATK-2" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayerATK-2" type="AudioStreamPlayer" parent="." unique_id=301945948]
 stream = ExtResource("5_70d11")
 bus = &"SFX"
 
-[node name="AudioStreamPlayerDASH" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayerDASH" type="AudioStreamPlayer" parent="." unique_id=397304144]
 stream = ExtResource("6_6mvoa")
 bus = &"SFX"
 
-[node name="AudioStreamPlayerPickUp" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayerPickUp" type="AudioStreamPlayer" parent="." unique_id=1129877998]
 stream = ExtResource("7_bruh7")
 bus = &"SFX"
 
-[node name="AudioStreamPlayerUse" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayerUse" type="AudioStreamPlayer" parent="." unique_id=843166658]
 stream = ExtResource("8_6eyey")
 bus = &"SFX"
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1067675014]
 
-[node name="InventoryUI" type="PanelContainer" parent="CanvasLayer"]
+[node name="InventoryUI" type="PanelContainer" parent="CanvasLayer" unique_id=802384765]
 visible = false
 custom_minimum_size = Vector2(72, 55)
 anchors_preset = 7
@@ -651,11 +651,11 @@ grow_vertical = 0
 scale = Vector2(2, 2)
 script = ExtResource("8_bruh7")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/InventoryUI"]
+[node name="NinePatchRect" type="NinePatchRect" parent="CanvasLayer/InventoryUI" unique_id=678238093]
 layout_mode = 2
 texture = ExtResource("9_bruh7")
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryUI/NinePatchRect"]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/InventoryUI/NinePatchRect" unique_id=1469464537]
 layout_mode = 0
 offset_left = 6.27139
 offset_top = 3.0

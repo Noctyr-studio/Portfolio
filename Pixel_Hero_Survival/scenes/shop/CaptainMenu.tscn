@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://hhubv32s18cf"]
+[gd_scene format=3 uid="uid://hhubv32s18cf"]
 
 [ext_resource type="Script" uid="uid://cor2755ts56ab" path="res://scenes/shop/captainMenu.gd" id="1_wubw8"]
 [ext_resource type="Texture2D" uid="uid://d010jcospqex4" path="res://art/UI/Banners/Carved_9Slides.png" id="2_kd4ap"]
@@ -7,10 +7,10 @@
 [ext_resource type="Texture2D" uid="uid://nhuspb4j46tc" path="res://art/UI/Buttons/Button_Blue_3Slides.png" id="6_arqgy"]
 [ext_resource type="Texture2D" uid="uid://dgii26q667qtf" path="res://art/UI/Buttons/Button_Blue_3Slides_Pressed.png" id="7_ui3h1"]
 
-[node name="CaptainMenu" type="CanvasLayer"]
+[node name="CaptainMenu" type="CanvasLayer" unique_id=1226655119]
 script = ExtResource("1_wubw8")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=659096555]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,22 +22,22 @@ offset_bottom = 46.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TextureRect2" type="TextureRect" parent="Control"]
+[node name="TextureRect2" type="TextureRect" parent="Control" unique_id=697077500]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 140.0
-offset_top = -350.0
+offset_top = -395.0
 offset_right = -566.0
-offset_bottom = -124.0
+offset_bottom = -169.0
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.85, 0.85)
 texture = ExtResource("2_kd4ap")
 
-[node name="Texto" type="Label" parent="Control/TextureRect2"]
+[node name="Texto" type="Label" parent="Control/TextureRect2" unique_id=1935348116]
 modulate = Color(0, 0, 0, 1)
 layout_mode = 1
 anchors_preset = 12
@@ -53,17 +53,17 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 28
 text = "Hello Sir, How can I help you??"
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=784358477]
 stream = ExtResource("3_548lc")
 bus = &"SFX"
 
-[node name="HPButton" type="Button" parent="."]
+[node name="HPButton" type="Button" parent="." unique_id=1093305825]
 offset_left = 480.0
-offset_top = 480.0
+offset_top = 435.0
 offset_right = 688.0
-offset_bottom = 532.0
+offset_bottom = 487.0
 
-[node name="Label" type="Label" parent="HPButton"]
+[node name="Label" type="Label" parent="HPButton" unique_id=906715468]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 10.0
@@ -71,7 +71,7 @@ offset_right = 100.0
 offset_bottom = 42.0
 text = "Gain HP"
 
-[node name="TextureRect" type="TextureRect" parent="HPButton"]
+[node name="TextureRect" type="TextureRect" parent="HPButton" unique_id=1093145843]
 layout_mode = 0
 offset_left = 82.0
 offset_top = -1.0
@@ -80,7 +80,7 @@ offset_bottom = 63.0
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("4_843qc")
 
-[node name="Price" type="Label" parent="HPButton"]
+[node name="Price" type="Label" parent="HPButton" unique_id=327101968]
 layout_mode = 0
 offset_left = 122.0
 offset_right = 173.0
@@ -90,13 +90,13 @@ text = "50
 "
 horizontal_alignment = 2
 
-[node name="ATTACKButton" type="Button" parent="."]
+[node name="ATTACKButton" type="Button" parent="." unique_id=2081094249]
 offset_left = 480.0
-offset_top = 535.0
+offset_top = 490.0
 offset_right = 688.0
-offset_bottom = 588.0
+offset_bottom = 543.0
 
-[node name="Label" type="Label" parent="ATTACKButton"]
+[node name="Label" type="Label" parent="ATTACKButton" unique_id=1426595537]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 11.0
@@ -104,7 +104,7 @@ offset_right = 92.0
 offset_bottom = 43.0
 text = "Gain Attack"
 
-[node name="TextureRect" type="TextureRect" parent="ATTACKButton"]
+[node name="TextureRect" type="TextureRect" parent="ATTACKButton" unique_id=477215963]
 layout_mode = 0
 offset_left = 91.0
 offset_top = -1.0
@@ -113,7 +113,7 @@ offset_bottom = 63.0
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("4_843qc")
 
-[node name="Price" type="Label" parent="ATTACKButton"]
+[node name="Price" type="Label" parent="ATTACKButton" unique_id=1436462866]
 layout_mode = 0
 offset_left = 140.0
 offset_top = 1.0
@@ -124,15 +124,15 @@ text = "100
 "
 horizontal_alignment = 2
 
-[node name="CLOSE" type="TextureButton" parent="."]
+[node name="CLOSE" type="TextureButton" parent="." unique_id=1138477927]
 offset_left = 700.0
-offset_top = 507.0
+offset_top = 462.0
 offset_right = 900.0
-offset_bottom = 579.0
+offset_bottom = 534.0
 texture_normal = ExtResource("6_arqgy")
 texture_pressed = ExtResource("7_ui3h1")
 
-[node name="Label" type="Label" parent="CLOSE"]
+[node name="Label" type="Label" parent="CLOSE" unique_id=588667974]
 layout_mode = 0
 offset_left = 62.0
 offset_top = 3.0

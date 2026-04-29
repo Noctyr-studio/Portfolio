@@ -28,9 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://dqpdhafbr5w10" path="res://scenes/ally/building/Fortress.tscn" id="29_n2fr6"]
 [ext_resource type="PackedScene" uid="uid://dbwxade3be1tu" path="res://scenes/ally/Trader.tscn" id="30_128ka"]
 [ext_resource type="PackedScene" uid="uid://bcnmkpxwu5vym" path="res://scenes/ally/building/Tower_Purple.tscn" id="33_b64vv"]
-[ext_resource type="Texture2D" uid="uid://b5qol32xbptow" path="res://assets/Resources/wood.png" id="34_2pad8"]
 [ext_resource type="PackedScene" uid="uid://d4baxbfb7rfxk" path="res://scenes/enemy/building/WoodTowerYellow.tscn" id="35_2pad8"]
-[ext_resource type="Texture2D" uid="uid://cm1tp2dnuv17q" path="res://assets/Resources/gold.png" id="35_5w2bu"]
 [ext_resource type="PackedScene" uid="uid://dl40t0ki15dk" path="res://scenes/FX/Bonfire.tscn" id="35_e4yt5"]
 [ext_resource type="PackedScene" uid="uid://cqgpkrpsqs1gc" path="res://scenes/ally/Captain.tscn" id="35_x70b3"]
 [ext_resource type="PackedScene" uid="uid://2r1n84se0o67" path="res://scenes/enemy/building/GoblinHouseYellow.tscn" id="36_e4yt5"]
@@ -523,6 +521,14 @@ y_sort_enabled = true
 script = ExtResource("1_ro7oq")
 metadata/_edit_vertical_guides_ = [933.0, 850.0]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1190007709]
+
+[node name="WaveLabel" type="Label" parent="CanvasLayer" unique_id=603473265]
+offset_left = 4.0
+offset_top = 6.0
+offset_right = 387.0
+offset_bottom = 71.0
+
 [node name="Seconds" type="Timer" parent="." unique_id=57672635]
 autostart = true
 
@@ -709,16 +715,6 @@ position = Vector2(2043, 4179)
 
 [node name="Trader" parent="." unique_id=966574283 instance=ExtResource("30_128ka")]
 position = Vector2(652, 1564)
-
-[node name="Wood" type="Sprite2D" parent="." unique_id=217606703]
-position = Vector2(1069, 724)
-scale = Vector2(0.2109375, 0.16601563)
-texture = ExtResource("34_2pad8")
-
-[node name="Gold" type="Sprite2D" parent="." unique_id=13967960]
-position = Vector2(1124, 806)
-scale = Vector2(0.16406251, 0.2109375)
-texture = ExtResource("35_5w2bu")
 
 [connection signal="timeout" from="Seconds" to="." method="_on_seconds_timeout"]
 [connection signal="timeout" from="Wave_Cooldown" to="." method="_on_wave_cooldown_timeout"]
