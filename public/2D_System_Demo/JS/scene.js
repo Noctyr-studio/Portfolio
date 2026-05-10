@@ -7,7 +7,6 @@ import { ctx, bgImage, GAME_WIDTH, GAME_HEIGHT } from "./main.js";
 import { Projectile } from "./projectile.js";
 import { keys } from "./main.js";
 
-
 export class Scene {
 
 constructor(){
@@ -33,7 +32,7 @@ this.pickups=[
 
 new Pickup(700,400,30,30,"hp",20),
 new Pickup(900,400,30,30,"energy",20),
-new Pickup(600,400,30,30,"coin",1)
+new Pickup(2000,400,30,30,"coin",1)
 
 ];
 
@@ -62,6 +61,12 @@ updateCamera(){
 }
 
 update(deltaTime){
+  
+  if(this.paused || (this.gameOver || this.gameDone)){
+  
+    return;
+
+}
 
   // =================
   // 1. UPDATE ENTIDADES
@@ -73,9 +78,15 @@ update(deltaTime){
     e.update(deltaTime, this.platforms, this.player)
   );
 
-  this.projectiles.forEach(p => 
-    p.update(deltaTime)
-  );
+  for(const kunai of this.projectiles){
+  kunai.update(deltaTime, this.enemies);
+}
+
+  this.projectiles = this.projectiles.filter(
+  k => k.alive
+);
+
+  this.enemies = this.enemies.filter(e => e.alive);
 
   this.pickups.forEach(p => 
     p.update(deltaTime, this.player)
@@ -147,16 +158,115 @@ drawBackground(){
 draw(){
 
 
+
 this.drawBackground();
 
 this.platforms.forEach(p=>p.draw(ctx,this.cameraX,this.cameraY));
 this.pickups.forEach(p=>p.draw(ctx,this.cameraX,this.cameraY));
-this.projectiles.forEach(p => p.draw(ctx, this.cameraX, this.cameraY));
+
+for(const kunai of this.projectiles){
+  kunai.draw(ctx, this.cameraX, this.cameraY);
+}
+
 this.player.draw(ctx,this.cameraX,this.cameraY);
 
 this.enemies.forEach(e => e.draw(ctx, this.cameraX, this.cameraY));
 
 this.drawUI(ctx)
+
+if(this.paused){
+
+  ctx.fillStyle = "rgba(0,0,0,0.5)";
+  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+
+  ctx.fillStyle = "white";
+  ctx.font = "48px monospace";
+  ctx.fillText("PAUSED", 200, 200);
+}
+
+if(this.gameOver){
+
+  ctx.fillStyle = "rgba(0,0,0,0.8)";
+  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+
+  ctx.fillStyle = "red";
+  ctx.font = "60px monospace";
+
+  ctx.fillText("GAME OVER", 250, 220);
+
+  ctx.font = "28px monospace";
+
+  ctx.fillText(
+    `Coins: ${this.player.stats.coins}`,
+    320,
+    300
+  );
+
+   // ================= BUTTON =================
+
+  const buttonX = GAME_WIDTH / 2 - 100;
+  const buttonY = 360;
+  const buttonW = 200;
+  const buttonH = 60;
+
+  ctx.fillStyle = "#222";
+  ctx.fillRect(buttonX, buttonY, buttonW, buttonH);
+
+  ctx.strokeStyle = "white";
+  ctx.strokeRect(buttonX, buttonY, buttonW, buttonH);
+
+  ctx.fillStyle = "white";
+  ctx.font = "32px monospace";
+
+  ctx.fillText(
+    "RESTART",
+    buttonX + 20,
+    buttonY + 40
+  );
+
+}
+
+if(this.gameDone){
+
+  ctx.fillStyle = "rgba(0,0,0,0.8)";
+  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+
+  ctx.fillStyle = "green";
+  ctx.font = "60px monospace";
+
+  ctx.fillText("YOU WON", 250, 220);
+
+  ctx.font = "28px monospace";
+
+  ctx.fillText(
+    `Coins: ${this.player.stats.coins}`,
+    320,
+    300
+  );
+
+     // ================= BUTTON =================
+
+  const buttonX = GAME_WIDTH / 2 - 100;
+  const buttonY = 360;
+  const buttonW = 200;
+  const buttonH = 60;
+
+  ctx.fillStyle = "#222";
+  ctx.fillRect(buttonX, buttonY, buttonW, buttonH);
+
+  ctx.strokeStyle = "white";
+  ctx.strokeRect(buttonX, buttonY, buttonW, buttonH);
+
+  ctx.fillStyle = "white";
+  ctx.font = "32px monospace";
+
+  ctx.fillText(
+    "RESTART",
+    buttonX + 20,
+    buttonY + 40
+  );
+
+}
 
 }
 spawnKunai(x, y, dir) {
@@ -170,6 +280,7 @@ spawnKunai(x, y, dir) {
 
   }
   
+
   
 }
 

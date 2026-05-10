@@ -23,7 +23,7 @@ export class Enemy extends Entity {
     };
 
     
-
+    this.dying= false;
     this.animFPS = 16; 
 
     this.velocityY = 0;
@@ -67,6 +67,22 @@ export class Enemy extends Entity {
 
 update(dt, platforms, player){
 
+  if(this.dying){
+
+  super.update(dt);
+
+  const frames = this.animations["die"];
+
+  const finished =
+    this.frameIndex === frames.length - 1;
+
+  if(finished){; 
+    //this.alive = false;
+    
+  }
+
+  return;
+}
   // =====================
   // GRAVEDAD
   // =====================
@@ -126,6 +142,11 @@ update(dt, platforms, player){
 
       if(dist < this.aggroRange){
         this.state = "chase";
+
+      }
+      else if (this.hp === 0) {
+        this.state = "die";
+
       }
     break;
 
@@ -157,7 +178,8 @@ update(dt, platforms, player){
     case "attack":
 
       // 🔥 IMPORTANTE: no moverse acá
-      this.updateAttack(dt, player);
+      this.updateAttack(dt);
+      this.tryHit(player)
 
       if(!this.attacking){
         this.state = "recovery";
@@ -177,6 +199,8 @@ update(dt, platforms, player){
       }
 
     break;
+
+
   }
 
   super.update(dt);

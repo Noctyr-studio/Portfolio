@@ -10,16 +10,18 @@ export class Entity {
     // stats
     const defaultStats = { hp:100, maxHp:100, energy:50, maxEnergy:50, coins:0 };
     this.stats = {...defaultStats, ...stats};
+    
     this.alive = true;
-  
+
+    this.dying = false;
 
     // ataque por tiempo (PRO)
     this.attacking = false;
     this.attackTimer = 0;
 
     this.attackData = {
-      hitStart: 0.2,
-      hitEnd: 0.3
+      hitStart: 0.5,
+      hitEnd: 0.6
     };
 
     this.hitDone = false;
@@ -44,7 +46,7 @@ export class Entity {
     this.showHealthBar = false;
 
     // ataque
-    this.attackBoxOffset = { x: 40, y: 0 , w: 40, h: 120, damage: 10 }; // default frontal
+    this.attackBoxOffset = { x: 40, y: 0 , w: 40, h: 120, damage: 50 }; // default frontal
     this.attackBox = null;
   }
 
@@ -55,6 +57,7 @@ export class Entity {
            this.y < other.y + other.h &&
            this.y + this.h > other.y;
   }
+
 
   update(dt){
 
@@ -111,43 +114,55 @@ export class Entity {
   this.attackCooldown = this.attackCooldownTime;
 }
 
-  updateAttack(dt, target){
+  updateAttack(dt){
 
-    if(!this.attacking) return;
+  if(!this.attacking) return;
 
-    this.attackTimer += dt;
+  this.attackTimer += dt;
 
-    // 🔥 SIEMPRE actualizar posición
-    this.updateAttackBox();
+  this.updateAttackBox();
 
-    const { hitStart, hitEnd } = this.attackData;
+  const { hitStart, hitEnd } = this.attackData;
 
-    if(
-      this.attackTimer >= hitStart &&
-      this.attackTimer <= hitEnd &&
-      !this.hitDone
-    ){
-      this.dealDamage(target);
-      this.hitDone = true;
-    }
+  this.attackBoxActive =
+    this.attackTimer >= hitStart &&
+    this.attackTimer <= hitEnd;
 
-    if(this.attackTimer >= this.attackDuration){
-      this.attacking = false;
-      this.attackBox = null; // limpiar
-    }
+  if(this.attackTimer >= this.attackDuration){
+    this.attacking = false;
+    this.attackBoxActive = false;
+  }
+  }
+
+  tryHit(target){
+
+  if(this.hitDone) return;
+
+  if(!this.attackBoxActive) return;
+
+  if(this.dealDamage(target)){
+    this.hitDone = true;
+  }
   }
 
   dealDamage(target){
-    if(this.checkHit(target)){
-      target.stats.hp -= this.attackBox.damage;
-      if(target.stats.hp <= 0){
-        target.alive = false;
-        target.stats.hp = 0;
-      }
-      return true;
+
+  if(this.checkHit(target)){
+
+    target.stats.hp -= this.attackBox.damage;
+
+    // clamp
+    target.stats.hp = Math.max(target.stats.hp, 0);
+
+    if(target.stats.hp === 0){
+      target.die();
     }
-    return false;
+
+    return true;
   }
+
+  return false;
+}
 
   heal(amount){
   this.stats.hp += amount;
@@ -159,6 +174,22 @@ export class Entity {
   this.stats.hp = Math.min(this.stats.hp, this.stats.maxHp);
  }
 
+die(){
+
+  if(this.dying) return;
+
+  this.dying = true;
+
+  this.attacking = false;
+
+  this.actionLocked = false;
+
+  this.velocityY = 0;
+  this.velocityX = 0;
+
+  this.play("die", false);
+
+}
   // ------------------ ANIMACIONES ------------------
   loadAnimations(baseFolder, animationNames, frameCount){
   for(let anim of animationNames){
@@ -269,15 +300,15 @@ draw(ctx, cameraX, cameraY){
 
   // ================= DEBUG =================
 
-  // 🔴 HITBOX CUERPO
-  ctx.strokeStyle = "red";
+  //  HITBOX CUERPO
+  ctx.strokeStyle = "blue";
   ctx.lineWidth = 2;
   ctx.strokeRect(drawX, drawY, this.w, this.h);
 
-  // 🟡 HITBOX ATAQUE
+  //  HITBOX ATAQUE
   if(this.showAttackBox && this.attackBox){
-    ctx.strokeStyle = "yellow";
-    ctx.setLineDash([4,2]);
+    ctx.strokeStyle = "cyan";
+    ctx.setLineDash([4,3]);
 
     ctx.strokeRect(
       this.attackBox.x - cameraX,

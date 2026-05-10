@@ -1,6 +1,7 @@
 
 import { Entity } from "./entity.js";
 
+
 export class Player extends Entity {
 
 constructor(x, y){
@@ -13,13 +14,28 @@ constructor(x, y){
     coins: 43
   });
 
-   /* this.stats = {
-      hp: 100,
-      maxHp: 100,
-      energy: 50,
-      maxEnergy: 50,
-      coins: 0
-    };*/
+   this.actionLocked = false;
+
+   this.attackDamage = 20;
+
+    this.attackBox = {
+      x: this.x,
+      y: this.y,
+      w: 90,
+      h: 80,
+      damage: this.attackDamage
+    };
+
+    this.showAttackBox = true;
+
+    this.hitDone = false;
+
+    this.attackData = {
+    hitStart: 0.4,
+    hitEnd: 0.5
+    };
+
+    this.lastThrowPressed = false;
 
     this.velocityY = 0;
     this.jumping = false;
@@ -32,7 +48,7 @@ constructor(x, y){
 
    this.loadAnimations(
     "ninja",
-    ["idle","run","jump","attack","throw","jump_attack","jump_throw"],
+    ["idle","run","jump","attack","throw","jump_attack","jump_throw","die"],
     10
   );
 
@@ -44,19 +60,66 @@ constructor(x, y){
     this.setAnimationSettings("jump_attack", { scaleX: 1.55, scaleY: 1.2, offsetX: 20, offsetY: 5 });
     this.setAnimationSettings("jump", { scaleX: 1.1, scaleY: 1.1 });
     this.setAnimationSettings("throw", { scaleX: 1.2, scaleY: 1 });
+    this.setAnimationSettings("die", { scaleX: 1.55, scaleY: 1.1 });
 }
 
 
 update(keys, platforms, dt, scene) {
+
+  if (this.stats.coins == 44){
+
+     scene.gameDone = true;
+   
+  }
+  else if(this.dying){
+
+  super.update(dt);
+
+  const frames = this.animations["die"];
+
+  const finished =
+    this.frameIndex === frames.length - 1;
+
+  if(finished){; 
+    //this.alive = false;
+    scene.gameOver = true
+   
+  }
+
+  return;
+}
+
+  if(this.attacking){
+
+  this.updateAttack(dt);
+
+  for(const enemy of scene.enemies){
+    this.tryHit(enemy);
+  }
+
+}
+  if(this.actionLocked){
+  this.attackTimer += dt;
+}
+
+  // ================= HITBOX =================
+  this.attackBox.x =
+  this.facing === 1
+    ? this.x + this.w - 10
+    : this.x - this.attackBox.w + 10;
+
+  this.attackBox.y = this.y + 20;
+
   // ================= INPUT =================
   const attackPressed = keys["d"];
   const throwPressed = keys["f"];
+  const throwJustPressed = throwPressed && !this.lastThrowPressed;
 
   // ================= MOVIMIENTO HORIZONTAL =================
   let dx = 0;
   const speed = 400;
 
-  if (!this.attacking) {
+  if (!this.attacking && !this.actionLocked)  {
     if (keys["arrowleft"]) {
       dx = -speed * dt;
       this.facing = -1;
@@ -117,24 +180,46 @@ update(keys, platforms, dt, scene) {
   }
 
   // ================= INICIAR ACCIONES =================
-  if (!this.attacking) {
-    if (attackPressed) {
-      this.attacking = true;
-      this.play(this.jumping ? "jump_attack" : "attack", false);
-    } 
-    else if (throwPressed) {
-      this.attacking = true;
-      this.play(this.jumping ? "jump_throw" : "throw", false);
+  if (!this.attacking && !this.actionLocked)  {
+    if (attackPressed && this.attackCooldown <= 0)  {
 
-      // 🔥 DISPARO
-      const spawnX = this.x + this.w / 2;
-      const spawnY = this.y + this.h / 2 - 20;
-      scene.spawnKunai(spawnX, spawnY, this.facing);
+      this.startAttack();
+
+      this.play(
+        this.jumping ? "jump_attack" : "attack",
+        false
+      );
+
+    }
+   else if (throwJustPressed && this.attackCooldown <= 0) {
+
+      this.actionLocked = true;
+
+      this.attackTimer = 0;
+
+      this.play(
+        this.jumping ? "jump_throw" : "throw",
+        false
+      );
+
+      const spawnX =
+        this.facing === 1
+          ? this.x + this.w
+          : this.x - 20;
+
+      const spawnY =
+        this.y + this.h * 0.45;
+
+      scene.spawnKunai(
+        spawnX,
+        spawnY,
+        this.facing
+      );
     }
   }
 
   // ================= ACTUALIZAR ACCIONES =================
-  if (this.attacking) {
+  if (this.attacking || this.actionLocked) {
     const frames = this.animations[this.currentAnimation];
     const isLastFrame = frames && this.frameIndex === frames.length - 1;
 
@@ -144,9 +229,11 @@ update(keys, platforms, dt, scene) {
           this.play(this.jumping ? "jump_attack" : "attack", false);
         }
       } 
-      else if (throwPressed) {
+      else if (throwJustPressed ) {
         if (this.currentAnimation !== (this.jumping ? "jump_throw" : "throw")) {
           this.play(this.jumping ? "jump_throw" : "throw", false);
+
+         
         }
       } 
       else {
@@ -154,11 +241,14 @@ update(keys, platforms, dt, scene) {
         if (!this.onGround) this.play("jump");
         else this.play("idle");
       }
+       this.actionLocked = false;
+       this.attackTimer = 0;
     }
+    
   }
 
   // ================= ANIMACIONES BASE =================
-  if (!this.attacking) {
+  if (!this.attacking && !this.actionLocked) {
 
     let nextAnim = "idle";
 
@@ -168,6 +258,8 @@ update(keys, platforms, dt, scene) {
     this.play(nextAnim);
   }
 
+  this.lastThrowPressed = throwPressed;
+  
   // ================= UPDATE ENTITY =================
   super.update(dt);
 }
@@ -179,6 +271,25 @@ update(keys, platforms, dt, scene) {
   draw(ctx, cameraX, cameraY){
     super.draw(ctx, cameraX, cameraY);
 
+       // ================= DEBUG STATE =================
+    ctx.fillStyle = "white";
+    ctx.font = "12px monospace";
+
+    const debugText = [
+      `state: ${this.state.toUpperCase()}`,
+      `anim: ${this.currentAnimation}`,
+      `frame: ${this.frameIndex}`,
+      `timer: ${this.attackTimer?.toFixed(2) || 0}`,
+      `hitDone: ${this.hitDone}`
+    ];
+
+    debugText.forEach((line, i) => {
+      ctx.fillText(
+        line,
+        this.x - cameraX ,
+        this.y - cameraY - 80 - (i * 12)
+      );
+    });
     // Opcional: debug adicional
     // ctx.strokeStyle = "lime";
     // ctx.strokeRect(this.x - cameraX, this.y - cameraY, this.w, this.h);
