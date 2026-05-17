@@ -9,14 +9,30 @@ export class LoadingScreen {
 
     this.progress = 0;
     this.fade = 0;
-    this.logo = new Image();
-    this.logo.src = "logo/clean.png";
+  
     this.done = false;
+
+    this.logo = new Image();
+
+    this.logo.src = "./logo/clean.png";
+
+    this.waitingForInput = false;
   }
 
   
   async load(){
 
+    await new Promise(resolve => {
+
+    if (this.logo.complete) {
+      resolve();
+      return;
+    }
+
+    this.logo.onload = resolve;
+     });
+
+     
     await Promise.all([
 
 
@@ -60,6 +76,7 @@ export class LoadingScreen {
 
   update(dt){
 
+  
     // progreso REAL
     this.progress = this.assets.getProgress();
 
@@ -93,24 +110,23 @@ export class LoadingScreen {
       logoSize
     );
 
-    // ---------------- TEXTO ----------------
+    // ---------------- FIRMA ----------------
 
-    ctx.fillStyle = "white";
-    ctx.font = "20px Arial";
-
-    const percent =
-    Math.floor(this.progress * 100);
+    ctx.fillStyle = "rgba(255,255,255,0.7)";
+    ctx.font = "22px Arial";
+    ctx.textAlign = "center";
 
     ctx.fillText(
-      `Loading... ${percent}%`,
-      width/2 - 70,
-      height/2 + 80
+      "Noctyr Studio",
+      width / 2,
+      height / 2 + 80
     );
+
 
     // ---------------- BARRA ----------------
 
     const barWidth = 300;
-    const barHeight = 20;
+    const barHeight = 30;
 
     const x = width/2 - barWidth/2;
     const y = height/2 + 100;
@@ -126,7 +142,7 @@ export class LoadingScreen {
     );
 
     // progreso
-    ctx.fillStyle = "#00ffcc";
+    ctx.fillStyle = "purple";
 
     ctx.fillRect(
       x,
@@ -136,6 +152,47 @@ export class LoadingScreen {
     );
 
     ctx.restore();
+
+
+    // ---------------- TEXTO ----------------
+
+    const percent =
+    Math.floor(this.progress * 100);
+
+    if (!this.waitingForInput) {
+
+      ctx.fillStyle = "white";
+      ctx.font = "18px Arial";
+      ctx.textAlign = "center";
+
+      ctx.fillText(
+       `Loading... ${percent}%`,
+        width / 2,
+        height / 2 + 120
+      );
+
+    } else {
+
+      const alpha =
+      0.5 + Math.sin(performance.now() * 0.003) * 0.5;
+
+      ctx.save();
+
+      ctx.globalAlpha = alpha;
+
+      ctx.fillStyle = "white";
+      ctx.font = "18px Arial";
+      ctx.textAlign = "center";
+
+      ctx.fillText(
+        "Press ENTER",
+        width / 2,
+        height / 2 + 120
+      );
+
+      ctx.restore();
+      
+    }
   }
 
   isDone(){

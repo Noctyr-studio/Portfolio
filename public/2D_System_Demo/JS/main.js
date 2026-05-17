@@ -34,6 +34,7 @@ let assetsReady = false;
 const assets = new AssetManager();
 const loader = new LoadingScreen(assets);
 
+
 // ==================== CLICK ====================
 canvas.addEventListener("click", e => {
 
@@ -60,6 +61,9 @@ canvas.addEventListener("click", e => {
   }
 });
 
+if (loader.isDone()) {
+    loader.waitingForInput = true;
+  }
 // ==================== GAME LOOP ====================
 function gameLoop(time) {
 
@@ -80,10 +84,18 @@ function gameLoop(time) {
     loader.update(dt);
     loader.draw(ctx, GAME_WIDTH, GAME_HEIGHT);
 
-    if (loader.isDone()) {
-      assetsReady = true;
+   if (loader.isDone()) {
+
+    loader.waitingForInput = true;
+
+    if (keys["enter"] && !scene) {
+
       scene = new Scene();
+      assetsReady = true;
+
+      keys["enter"] = false;
     }
+}
 
     requestAnimationFrame(gameLoop);
     return;

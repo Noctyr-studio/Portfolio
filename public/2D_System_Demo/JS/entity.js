@@ -46,7 +46,7 @@ export class Entity {
     this.showHealthBar = false;
 
     // ataque
-    this.attackBoxOffset = { x: 40, y: 0 , w: 40, h: 120, damage: 20 }; // default frontal
+    this.attackBoxOffset = { x: 40, y: 0 , w: 40, h: 120, damage: 30 }; // default frontal
     this.attackBox = null;
   }
 

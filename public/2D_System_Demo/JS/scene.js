@@ -19,14 +19,15 @@ this.player = new Player(800,0);
 this.platforms=[
 new Platform(0,500,4000,40),
 new Platform(400,30,40,2000),
-//new Platform(1700,320,400,20),
+new Platform(2400,400,400,20),
 new Platform(2600,250,400,20),
 new Platform(3300,200,100,400)
 
 ];
 
 this.enemies = [
-  new Enemy(1500, 380)
+  new Enemy(1500, 380),
+  new Enemy(2800, 100)
 ];
 
 this.projectiles = [];
@@ -35,7 +36,7 @@ this.pickups=[
 
 new Pickup(1200,400,30,30,"hp",20),
 new Pickup(1300,400,30,30,"energy",20),
-new Pickup(2500,400,30,30,"coin",1)
+new Pickup(3500,400,30,30,"coin",1)
 
 ];
 
@@ -195,13 +196,13 @@ if(this.gameOver){ // GAME OVER //
   ctx.fillStyle = "red";
   ctx.font = "60px monospace";
 
-  ctx.fillText("GAME OVER", 350, 220);
+  ctx.fillText("GAME OVER", 500, 220);
 
   ctx.font = "28px monospace";
 
   ctx.fillText(
     `Coins: ${this.player.stats.coins}`,
-    430,
+    500,
     300
   );
 
@@ -221,7 +222,7 @@ if(this.gameOver){ // GAME OVER //
 
   ctx.fillText(
     "RESTART",
-    buttonX + 20,
+    buttonX + 100,
     buttonY + 40
   );
 
@@ -235,13 +236,13 @@ if(this.gameDone){   // JUEGO COMPLETADO //
   ctx.fillStyle = "green";
   ctx.font = "60px monospace";
 
-  ctx.fillText("YOU WON", 400, 220);
+  ctx.fillText("YOU WON", 500, 220);
 
   ctx.font = "28px monospace";
 
   ctx.fillText(
     `Coins: ${this.player.stats.coins}`,
-    430,
+    500,
     300
   );
 
@@ -261,7 +262,7 @@ if(this.gameDone){   // JUEGO COMPLETADO //
 
   ctx.fillText(
     "RESTART",
-    buttonX + 20,
+    buttonX + 100,
     buttonY + 40
   );
 
@@ -314,7 +315,7 @@ drawUI(ctx){
   ctx.font = "20px Arial";
   ctx.fillText(
     `${Math.floor(s.hp)} / ${s.maxHp}`,
-    x +10,
+    x + 50,
     y + 15
   );
 
@@ -332,7 +333,7 @@ drawUI(ctx){
   ctx.font = "20px Arial";
   ctx.fillText(
     `${Math.floor(s.energy)} / ${s.maxEnergy}`,
-    x +10,
+    x + 50,
     y + 40
   );
 
@@ -347,7 +348,7 @@ drawUI(ctx){
   // dibuja el texto
   ctx.fillText(
     s.coins,
-    x + 10 +size ,
+    x + 20 +size ,
     y +40 + size 
   );
 

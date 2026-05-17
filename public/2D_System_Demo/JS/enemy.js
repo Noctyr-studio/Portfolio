@@ -22,6 +22,7 @@ export class Enemy extends Entity {
       damage: this.attackBoxOffset.damage // 🔥 CLAVE
     };
 
+    this.attackBoxOffset.damage = 20
     
     this.dying= false;
     this.animFPS = 16; 
@@ -235,17 +236,17 @@ draw(ctx, cameraX, cameraY){
   ctx.font = "11px monospace";
 
   const debugText = [
-    `state: ${this.state.toUpperCase()}`,
-    `anim: ${this.currentAnimation}`,
-    `frame: ${this.frameIndex}`,
-    `timer: ${this.attackTimer?.toFixed(2) || 0}`,
+    `state:${this.state.toUpperCase()}`,
+    `anim:${this.currentAnimation}`,
+    `frame:${this.frameIndex}`,
+    `timer:${this.attackTimer?.toFixed(2) || 0}`,
     `hit:${this.hitDone}`
   ];
 
   debugText.forEach((line, i) => {
     ctx.fillText(
       line,
-      this.x - cameraX,
+      this.x - cameraX + 40 ,
       this.y - cameraY - 80 - (i * 12)
     );
   });

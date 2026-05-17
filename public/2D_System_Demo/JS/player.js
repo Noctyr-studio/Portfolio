@@ -7,7 +7,7 @@ export class Player extends Entity {
 constructor(x, y){
   super(x, y, 80, 120, {
 
-    hp: 75,
+    hp: 80,
     maxHp: 100,
     energy: 40,
     maxEnergy: 100,
@@ -276,17 +276,17 @@ update(keys, platforms, dt, scene) {
     ctx.font = "11px monospace";
 
     const debugText = [
-      `state: ${this.state.toUpperCase()}`,
-      `anim: ${this.currentAnimation}`,
-      `frame: ${this.frameIndex}`,
-      `timer: ${this.attackTimer?.toFixed(2) || 0}`,
+      `state:${this.state.toUpperCase()}`,
+      `anim:${this.currentAnimation}`,
+      `frame:${this.frameIndex}`,
+      `timer:${this.attackTimer?.toFixed(2) || 0}`,
       `hit:${this.hitDone}`
     ];
 
     debugText.forEach((line, i) => {
       ctx.fillText(
         line,
-        this.x - cameraX ,
+        this.x - cameraX + 40 ,
         this.y - cameraY - 80 - (i * 12)
       );
     });
