@@ -287,7 +287,7 @@ update(keys, platforms, dt, scene) {
       ctx.fillText(
         line,
         this.x - cameraX + 40 ,
-        this.y - cameraY - 80 - (i * 12)
+        this.y - cameraY - 40 - (i * 12)
       );
     });
     // Opcional: debug adicional

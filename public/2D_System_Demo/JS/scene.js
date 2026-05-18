@@ -34,8 +34,8 @@ this.projectiles = [];
 
 this.pickups=[
 
-new Pickup(1200,400,30,30,"hp",20),
-new Pickup(1300,400,30,30,"energy",20),
+new Pickup(1400,400,30,30,"hp",20),
+new Pickup(1600,400,30,30,"energy",20),
 new Pickup(3500,400,30,30,"coin",1)
 
 ];
@@ -45,6 +45,38 @@ this.cameraY=0;
 
 this.coinIcon = new Image();
 this.coinIcon.src = "./pickups/coin/frame_1.png";
+
+}
+
+reset(text,color){
+
+  ctx.fillStyle = "rgba(0,0,0,0.8)";
+  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+
+  ctx.fillStyle = color;
+  ctx.font = "60px monospace";
+
+  ctx.fillText(text, 500, 220); 
+  
+  ctx.font = "28px monospace";
+
+  ctx.fillText(
+    `Coins: ${this.player.stats.coins}`,
+    500,
+    300
+  );
+
+  ctx.fillStyle = "white";
+  ctx.font = "32px monospace";
+
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  ctx.fillText(
+    "Press ENTER to RESTART",
+    GAME_WIDTH / 2,
+    390
+  );
 
 }
 
@@ -137,8 +169,6 @@ update(deltaTime){
   this.updateCamera();
 }
 
-
-
 drawBackground(){
 
   const bgW = bgImage.width;
@@ -185,88 +215,21 @@ if(this.paused){  // PAUSA //
 
   ctx.fillStyle = "white";
   ctx.font = "48px monospace";
-  ctx.fillText("PAUSED", 200, 200);
+  ctx.fillText("PAUSED", 500, 260);
 }
 
 if(this.gameOver){ // GAME OVER //
 
-  ctx.fillStyle = "rgba(0,0,0,0.8)";
-  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
-
-  ctx.fillStyle = "red";
-  ctx.font = "60px monospace";
-
-  ctx.fillText("GAME OVER", 500, 220);
-
-  ctx.font = "28px monospace";
-
-  ctx.fillText(
-    `Coins: ${this.player.stats.coins}`,
-    500,
-    300
-  );
-
-  const buttonX = GAME_WIDTH / 2 - 200;
-  const buttonY = 360;
-  const buttonW = 200;
-  const buttonH = 60;
-
-  ctx.fillStyle = "#222";
-  ctx.fillRect(buttonX, buttonY, buttonW, buttonH);
-
-  ctx.strokeStyle = "white";
-  ctx.strokeRect(buttonX, buttonY, buttonW, buttonH);
-
-  ctx.fillStyle = "white";
-  ctx.font = "32px monospace";
-
-  ctx.fillText(
-    "RESTART",
-    buttonX + 100,
-    buttonY + 40
-  );
+  this.reset("GAME OVER","red")
 
 }
 
 if(this.gameDone){   // JUEGO COMPLETADO //
 
-  ctx.fillStyle = "rgba(0,0,0,0.8)";
-  ctx.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
-
-  ctx.fillStyle = "green";
-  ctx.font = "60px monospace";
-
-  ctx.fillText("YOU WON", 500, 220);
-
-  ctx.font = "28px monospace";
-
-  ctx.fillText(
-    `Coins: ${this.player.stats.coins}`,
-    500,
-    300
-  );
-
-  const buttonX = GAME_WIDTH / 2 - 200;
-  const buttonY = 360;
-  const buttonW = 200;
-  const buttonH = 60;
-
-  ctx.fillStyle = "#222";
-  ctx.fillRect(buttonX, buttonY, buttonW, buttonH);
-
-  ctx.strokeStyle = "white";
-  ctx.strokeRect(buttonX, buttonY, buttonW, buttonH);
-
-  ctx.fillStyle = "white";
-  ctx.font = "32px monospace";
-
-  ctx.fillText(
-    "RESTART",
-    buttonX + 100,
-    buttonY + 40
-  );
+ this.reset("YOU WON","green")
 
 }
+
 
 
 
@@ -293,11 +256,11 @@ spawnKunai(x, y, dir) {
 
 drawUI(ctx){
 
-  const barWidth = 150;
+  const barWidth = 125;
   const barHeight = 25;
   const margin = 50;
-  const x = 220;
-  const y = 20;
+  const x = 400;
+  const y = 30;
 
   const s = this.player.stats;
 
