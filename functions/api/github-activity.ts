@@ -3,7 +3,7 @@
 export async function onRequest(context: {
   env: { GITHUB_TOKEN: string };
 }) {
-  const GITHUB_USERNAME = "Arkangel-96";
+  const GITHUB_USERNAME = "Noctyr-studio";
 
   const to = new Date();
   const from = new Date();

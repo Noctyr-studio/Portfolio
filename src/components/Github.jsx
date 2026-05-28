@@ -146,7 +146,7 @@ export default function Github() {
 
         <div className="mt-6">
           <a
-            href="https://github.com/Arkangel-96"
+            href="https://github.com/Noctyr-studio"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-xl bg-indigo-500/90 px-4 py-2 text-sm font-semibold hover:bg-indigo-400 transition"

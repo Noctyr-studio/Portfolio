@@ -23,7 +23,7 @@ Ecosistema personal donde desarrollo y conecto **aplicaciones web, juegos online
 ## 🎮 Proyectos Destacados
 
 
-### ⚙️ Abyssal Maker™ — Gameplay Runtime (JS)
+### ⚔️ Sword & Knife — 2D Web Action Game
 
 Proyecto experimental centrado en construir **sistemas de gameplay desde cero**.
 
@@ -42,7 +42,7 @@ Proyecto experimental centrado en construir **sistemas de gameplay desde cero**.
 
 ---
 
-### 🕹️ Pixel Hero Survival
+### 👾 Pixel Hero Survival
 
 Juego 2D estilo roguelike enfocado en **supervivencia, combate en tiempo real y responsividad**.
 
@@ -61,23 +61,6 @@ Juego 2D estilo roguelike enfocado en **supervivencia, combate en tiempo real y 
 
 ---
 
-### 📊 SaaS Intelligence – Noctyr Analytics™
-
-Proyecto exploratorio de data science enfocado en **modelos de negocio SaaS**.
-
-**Objetivo:**
-Analizar cómo escalan productos digitales a través de datos.
-
-**Focus:**
-
-* Modelos de pricing
-* Patrones de crecimiento
-* Posicionamiento de producto
-
-**Stack:**
-
-* Python (Pandas, Jupyter, PyTorch)
-
 
 ---
 
@@ -88,7 +71,6 @@ Analizar cómo escalan productos digitales a través de datos.
 * PostgreSQL 
 * Arquitectura modular y escalable
 * Desarrollo end-to-end
-* Data analysis aplicado a productos
 
 ---
 
