@@ -8,24 +8,13 @@ Ecosistema personal donde desarrollo y conecto **aplicaciones web, juegos online
 
 ---
 
-## 🌐 Web Principal
-
-**Stack:** React + Cloudflare Workers (Node.js)
-
-* Sistema de autenticación (registro/login)
-* Dashboard dinámico y noticias
-* Sección de Data Science integrada
-* PostgreSQL
-* Seguridad y distribución con Cloudflare
-
----
 
 ## 🎮 Proyectos Destacados
 
 
 ### ⚔️ Sword & Knife — 2D Web Action Game
 
-Proyecto experimental centrado en construir **sistemas de gameplay desde cero**.
+A 2D Web Action Game built entirely from scratch.
 
 **Incluye:**
 
@@ -74,4 +63,4 @@ Juego 2D estilo roguelike enfocado en **supervivencia, combate en tiempo real y 
 
 ---
 
-> 💼 Este proyecto es mi **portfolio profesional** para demostrar competencias de **junior fullstack Python** ante reclutadores y empresas de software.
+> 💼 Este proyecto es mi **portfolio profesional** para demostrar competencias de **junior fullstack JavaScript** ante reclutadores y empresas de software.
