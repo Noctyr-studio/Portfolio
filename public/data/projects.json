@@ -3,7 +3,7 @@
     "id": 1,
     "title": "Sword & Knife",
     "description": "A 2D Web Action Game built entirely from scratch",
-    "image": "/img/abyssal_maker.png",
+    "image": "/img/Sword_and_Knife.png",
     "keyFeatures": [
       "Modular gameplay architecture",
       "Combat & damage pipeline",
@@ -21,7 +21,7 @@
     "id": 2,
     "title": "Pixel Hero Survival",
     "description": "Fast-paced 2D survival roguelike focused on responsive combat and real-time gameplay feedback",
-    "image": "/img/cover_image.png",
+    "image": "/img/Pixel_Hero_Survival.png",
     "keyFeatures": [
       "Real-time combat & damage system",
       "Enemy AI and wave spawning logic",

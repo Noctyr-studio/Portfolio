@@ -3,98 +3,62 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <!-- Responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Theme -->
     <meta name="theme-color" content="#0a0a0a" />
 
     <!-- SEO -->
     <title>Noctyr Studio | Games, Web Apps & Applied AI</title>
-
-    <meta
-      name="description"
-      content="Noctyr Studio is an independent development studio founded by Matías Baltieri, focused on video games, modern web applications, and applied AI solutions."
-    />
-
-    <meta
-      name="keywords"
-      content="Noctyr Studio, Matías Baltieri, game development, indie games, web applications, applied AI"
-    />
-
+    <meta name="description" content="Noctyr Studio is an independent development studio founded by Matías Baltieri, focused on video games, modern web applications, and applied AI solutions." />
+    <meta name="keywords" content="Noctyr Studio, Matías Baltieri, game development, indie games, web applications, applied AI" />
     <meta name="author" content="Matías Baltieri" />
-
     <link rel="canonical" href="https://noctyr-studio.com/" />
 
     <!-- Icons -->
-    <link rel="icon" type="image/png" sizes="48x48" href="/img/favicon.png" />
-
-    <link rel="icon" type="image/png" sizes="192x192" href="/img/favicon.png" />
-
-    <link rel="icon" type="image/png" sizes="512x512" href="/img/favicon.png" />
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/img/favicon-48.png" type="image/png" sizes="48x48" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-
     <meta property="og:site_name" content="Noctyr Studio" />
-
-    <meta
-      property="og:title"
-      content="Noctyr Studio | Games, Web Apps & Applied AI"
-    />
-
-    <meta
-      property="og:description"
-      content="Independent development studio creating games, web applications, and applied AI experiences."
-    />
-
-    <meta
-      property="og:url"
-      content="https://noctyr-studio.com/"
-    />
-
-    <meta
-      property="og:image"
-      content="https://noctyr-studio.com/img/preview.jpg"
-    />
+    <meta property="og:title" content="Noctyr Studio | Games, Web Apps & Applied AI" />
+    <meta property="og:description" content="Independent development studio creating games, web applications, and applied AI experiences." />
+    <meta property="og:url" content="https://noctyr-studio.com/" />
+    <meta property="og:image" content="https://noctyr-studio.com/img/preview.jpg" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Noctyr Studio | Games, Web Apps & Applied AI" />
+    <meta name="twitter:description" content="Independent development studio creating games, web applications, and applied AI experiences." />
+    <meta name="twitter:image" content="https://noctyr-studio.com/img/preview.jpg" />
 
-    <meta
-      name="twitter:title"
-      content="Noctyr Studio | Games, Web Apps & Applied AI"
-    />
-
-    <meta
-      name="twitter:description"
-      content="Independent development studio creating games, web applications, and applied AI experiences."
-    />
-
-    <meta
-      name="twitter:image"
-      content="https://noctyr-studio.com/img/preview.jpg"
-    />
-
-    <!-- Structured Data -->
+    <!-- Structured Data: Person -->
     <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "Person",
-        "name": "Matías Baltieri",
-        "url": "https://noctyr-studio.com/",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "Noctyr Studio"
-        }
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Matías Baltieri",
+      "url": "https://noctyr-studio.com/",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Noctyr Studio"
       }
+    }
+    </script>
+
+    <!-- Structured Data: WebSite (para el nombre en Google) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Noctyr Studio",
+      "alternateName": ["Noctyr", "noctyr-studio.com"],
+      "url": "https://noctyr-studio.com/"
+    }
     </script>
   </head>
 
   <body>
     <div id="root"></div>
-
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
