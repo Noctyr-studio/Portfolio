@@ -159,16 +159,38 @@ export default {
           },
         })
       } catch (e) {
-        return new Response( JSON.stringify({ error: "User already exists" }),
-          {
-            status: 409,
-            headers: {
-              "Content-Type": "application/json",
-              ...corsHeaders,
-            },
+          console.error("REGISTER ERROR:", e)
+
+          const message = String(e)
+
+          if (message.includes("UNIQUE constraint failed")) {
+            return new Response(
+              JSON.stringify({
+                error: "User already exists"
+              }),
+              {
+                status: 409,
+                headers: {
+                  "Content-Type": "application/json",
+                  ...corsHeaders,
+                },
+              }
+            )
           }
-        )
-      }
+
+          return new Response(
+            JSON.stringify({
+              error: message
+            }),
+            {
+              status: 500,
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+              },
+            }
+          )
+        }
     }
 
     // 👉 LOGIN
@@ -181,27 +203,50 @@ export default {
         .prepare("SELECT * FROM users WHERE email = ? AND password = ?")
         .bind(body.email, hashedPassword)
         .first()
-
+        console.log("USER FOUND:", body.email)
+        console.log("JWT_SECRET:", env.JWT_SECRET)
+      
+   
       if (user) {
-        const token = await createJWT(
+        try {
+          const token = await createJWT(
           { email: body.email },
           env.JWT_SECRET
         )
+        
+        return new Response(
+          JSON.stringify({
+            success: true,
+            token,
+          }),
+          {
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+        } catch (e) {
+          console.error("JWT ERROR:", e)
 
-      return new Response(
-        JSON.stringify({ success: true, token }),
-        {
-          headers: {
-            "Content-Type": "application/json",
-            ...corsHeaders,
-          },
+          return new Response(
+            JSON.stringify({
+              success: false,
+              error: String(e)
+            }),
+            {
+              status: 500,
+              headers: {
+                "Content-Type": "application/json",
+                ...corsHeaders,
+              },
+            }
+          )
         }
-      )
       }
-      
+    
       return new Response(JSON.stringify({ success: false }), {
-        status: 401,
-        headers: {
+        status: 401,       headers: {
           "Content-Type": "application/json",
           ...corsHeaders,
         },

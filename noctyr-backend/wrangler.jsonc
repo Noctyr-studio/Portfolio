@@ -3,9 +3,7 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {   
-	"vars": {
-    "JWT_SECRET": "super-secret-123"
-  	},
+	
 	"$schema": "node_modules/wrangler/config-schema.json",
 	"name": "noctyr-backend","main": "src/index.ts",
 	"compatibility_date": "2026-04-19",

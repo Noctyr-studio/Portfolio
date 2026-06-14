@@ -7,12 +7,14 @@ export default function Auth({ mode = "login", onClose , setUser}) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     const endpoint = isLogin
-      ? "http://localhost:8787/login"
-      : "http://localhost:8787/register";
+      ? `${API_URL}/login`
+      : `${API_URL}/register`;
 
     try {
       const res = await fetch(endpoint, {
@@ -41,7 +43,7 @@ export default function Auth({ mode = "login", onClose , setUser}) {
         localStorage.setItem("token", data.token);
 
         const meRes = await fetch(
-          "http://localhost:8787/me",
+          `${API_URL}/me`,
           {
             headers: {
               Authorization: `Bearer ${data.token}`,

@@ -20,12 +20,14 @@ function App() {
   const [authMode, setAuthMode] = useState("login");
   const [user, setUser] = useState(null);
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (!token) return;
 
-    fetch("http://localhost:8787/me", {
+    fetch(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
