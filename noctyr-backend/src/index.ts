@@ -10,6 +10,25 @@ const corsHeaders = {
 
 const encoder = new TextEncoder()
 
+function bytesToHex(bytes: Uint8Array): string {
+  return Array.from(bytes)
+    .map(b => b.toString(16).padStart(2, "0"))
+    .join("")
+}
+
+function hexToBytes(hex: string): Uint8Array {
+  const bytes = new Uint8Array(hex.length / 2)
+
+  for (let i = 0; i < hex.length; i += 2) {
+    bytes[i / 2] = parseInt(
+      hex.substring(i, i + 2),
+      16
+    )
+  }
+
+  return bytes
+}
+
 function base64UrlEncode(input: string | object) {
   const json = typeof input === "string" ? input : JSON.stringify(input)
 
@@ -68,7 +87,7 @@ async function verifyJWT(token: string, secret: string) {
 
   const data = `${header}.${payload}`
 
-  const encoder = new TextEncoder()
+
 
   // 🔐 import key
   const key = await crypto.subtle.importKey(
@@ -116,15 +135,36 @@ async function verifyJWT(token: string, secret: string) {
 
 
 // 🔐 HASH PASSWORD FUNCTION
-async function hashPassword(password: string): Promise<string> {
-  const encoder = new TextEncoder()
-  const data = encoder.encode(password)
+async function hashPassword(
+  password: string,
+  salt: Uint8Array
+): Promise<string> {
 
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data)
+  const keyMaterial =
+    await crypto.subtle.importKey(
+      "raw",
+      encoder.encode(password),
+      "PBKDF2",
+      false,
+      ["deriveBits"]
+    )
 
-  return Array.from(new Uint8Array(hashBuffer)).map((b) => b.toString(16).padStart(2, "0")).join("")
+  const derivedBits =
+    await crypto.subtle.deriveBits(
+      {
+        name: "PBKDF2",
+        hash: "SHA-256",
+        salt,
+        iterations: 100000,
+      },
+      keyMaterial,
+      256
+    )
+
+  return bytesToHex(
+    new Uint8Array(derivedBits)
+  )
 }
-
 
 
 
@@ -144,12 +184,27 @@ export default {
       const body = (await request.json()) as { email: string; password: string }
 
       // 🔐 HASH PASSWORD
-      const hashedPassword = await hashPassword(body.password)
+     const salt =
+      crypto.getRandomValues(
+        new Uint8Array(16)
+      )
+
+    const hashedPassword =
+      await hashPassword(
+        body.password,
+        salt
+      )
 
       try {
         await env.noctyr_db
-          .prepare("INSERT INTO users (email, password) VALUES (?, ?)")
-          .bind(body.email, hashedPassword)
+          .prepare(
+          "INSERT INTO users (email, password, salt) VALUES (?, ?, ?)"
+          )
+          .bind(
+          body.email,
+          hashedPassword,
+          bytesToHex(salt)
+          )
           .run()
 
         return new Response(JSON.stringify({ success: true }), {
@@ -197,23 +252,57 @@ export default {
     if (url.pathname === "/login" && request.method === "POST") {
       const body = (await request.json()) as { email: string; password: string }
 
-      const hashedPassword = await hashPassword(body.password)
-
-      const user = await env.noctyr_db
-        .prepare("SELECT * FROM users WHERE email = ? AND password = ?")
-        .bind(body.email, hashedPassword)
-        .first()
+    
         console.log("USER FOUND:", body.email)
         console.log("JWT_SECRET:", env.JWT_SECRET)
-      
-   
-      if (user) {
-        try {
-          const token = await createJWT(
+
+      const user =
+        await env.noctyr_db
+          .prepare(
+            "SELECT * FROM users WHERE email = ?"
+          )
+          .bind(body.email)
+          .first()
+          
+          
+      if (!user) {
+        return new Response(
+          JSON.stringify({ success: false }),
+          {
+            status: 401,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      } 
+      const salt = hexToBytes(user.salt)
+
+      const hashedPassword =
+        await hashPassword(
+          body.password,
+          salt
+        )
+      if (hashedPassword !== user.password) {
+        return new Response(
+          JSON.stringify({ success: false }),
+          {
+            status: 401,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      }
+
+      try {
+        const token = await createJWT(
           { email: body.email },
           env.JWT_SECRET
         )
-        
+
         return new Response(
           JSON.stringify({
             success: true,
@@ -226,32 +315,26 @@ export default {
             },
           }
         )
-        } catch (e) {
-          console.error("JWT ERROR:", e)
-
-          return new Response(
-            JSON.stringify({
-              success: false,
-              error: String(e)
-            }),
-            {
-              status: 500,
-              headers: {
-                "Content-Type": "application/json",
-                ...corsHeaders,
-              },
-            }
-          )
-        }
       }
-    
-      return new Response(JSON.stringify({ success: false }), {
-        status: 401,       headers: {
-          "Content-Type": "application/json",
-          ...corsHeaders,
-        },
-      })
-    }
+      catch (e) {
+        console.error("JWT ERROR:", e)
+
+        return new Response(
+          JSON.stringify({
+            success: false,
+            error: String(e)
+          }),
+          {
+            status: 500,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      }
+      
+  }
 
     // 🙂 WHO AM I ?
     if (url.pathname === "/me" && request.method === "GET") {
