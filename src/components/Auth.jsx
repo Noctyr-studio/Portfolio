@@ -1,6 +1,19 @@
 
 import { useState } from "react";
 
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+   }
+
+  function isValidPassword(password) {
+    return (
+      password.length >= 8 &&
+      /[A-Za-z]/.test(password) &&
+      /\d/.test(password) &&
+      /[^A-Za-z0-9]/.test(password)
+    );
+  }
+
 export default function Auth({ mode = "login", onClose , setUser}) {
   const [isLogin, setIsLogin] = useState(mode === "login");
 
@@ -9,8 +22,22 @@ export default function Auth({ mode = "login", onClose , setUser}) {
 
   const API_URL = import.meta.env.VITE_API_URL;
 
+
   async function handleSubmit(e) {
     e.preventDefault();
+
+    // 🔐 VALIDACIÓN FRONTEND (ANTES DEL FETCH)
+    if (!isValidEmail(email)) {
+      alert("Invalid email");
+      return;
+    }
+
+    if (!isValidPassword(password)) {
+      alert(
+        "Password must be at least 8 characters, include a letter, a number and a special character"
+      );
+      return;
+    }
 
     const endpoint = isLogin
       ? `${API_URL}/login`
@@ -208,16 +235,23 @@ export default function Auth({ mode = "login", onClose , setUser}) {
           type="email"
           value={email}
           placeholder="your@email.com"
-          className="
-            w-full
-            rounded-xl
-            border
-            border-white/10
-            bg-white/[0.04]
-            px-4
-            py-3
-            outline-none
-            focus:border-violet-500
+            className="
+          w-full
+          rounded-xl
+          border
+          border-white/10
+          bg-white/[0.04]
+          px-4
+          py-3
+          outline-none
+          transition
+          duration-200
+          hover:border-white/20
+          hover:bg-white/[0.06]
+          focus:border-violet-500
+          focus:bg-white/[0.06]
+          focus:ring-2
+          focus:ring-violet-500/20
           "
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -233,15 +267,22 @@ export default function Auth({ mode = "login", onClose , setUser}) {
           placeholder="••••••••"
           value={password}
           className="
-            w-full
-            rounded-xl
-            border
-            border-white/10
-            bg-white/[0.04]
-            px-4
-            py-3
-            outline-none
-            focus:border-violet-500
+          w-full
+          rounded-xl
+          border
+          border-white/10
+          bg-white/[0.04]
+          px-4
+          py-3
+          outline-none
+          transition
+          duration-200
+          hover:border-white/20
+          hover:bg-white/[0.06]
+          focus:border-violet-500
+          focus:bg-white/[0.06]
+          focus:ring-2
+          focus:ring-violet-500/20
           "
           onChange={(e) => setPassword(e.target.value)}
         />

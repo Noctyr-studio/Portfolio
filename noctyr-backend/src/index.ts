@@ -10,6 +10,19 @@ const corsHeaders = {
 
 const encoder = new TextEncoder()
 
+function isValidEmail(email: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+}
+
+function isValidPassword(password: string): boolean {
+  return (
+    password.length >= 8 &&
+    /[A-Za-z]/.test(password) &&
+    /\d/.test(password) &&
+    /[^A-Za-z0-9]/.test(password)
+  )
+}
+
 function bytesToHex(bytes: Uint8Array): string {
   return Array.from(bytes)
     .map(b => b.toString(16).padStart(2, "0"))
@@ -180,14 +193,47 @@ export default {
   }
 
     // 👉 REGISTER
-    if (url.pathname === "/register" && request.method === "POST") {
-      const body = (await request.json()) as { email: string; password: string }
+   if (url.pathname === "/register" && request.method === "POST") {
+      const body = (await request.json()) as {
+        email: string
+        password: string
+      }
+
+      if (!isValidEmail(body.email)) {
+        return new Response(
+          JSON.stringify({
+            error: "Invalid email"
+          }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      }
+
+      if (!isValidPassword(body.password)) {
+        return new Response(
+          JSON.stringify({
+            error: "Password must contain at least 8 characters, one letter, one number and one special character"
+          }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      }
 
       // 🔐 HASH PASSWORD
-     const salt =
-      crypto.getRandomValues(
-        new Uint8Array(16)
-      )
+      const salt =
+        crypto.getRandomValues(
+          new Uint8Array(16)
+        )
 
     const hashedPassword =
       await hashPassword(
@@ -250,11 +296,28 @@ export default {
 
     // 👉 LOGIN
     if (url.pathname === "/login" && request.method === "POST") {
-      const body = (await request.json()) as { email: string; password: string }
+      
+      const body = (await request.json()) as {
+        email: string
+        password: string
+      }
+      
 
-    
-        console.log("USER FOUND:", body.email)
-        console.log("JWT_SECRET:", env.JWT_SECRET)
+      if (!isValidEmail(body.email)) {
+        return new Response(
+          JSON.stringify({
+            error: "Invalid email"
+          }),
+          {
+            status: 400,
+            headers: {
+              "Content-Type": "application/json",
+              ...corsHeaders,
+            },
+          }
+        )
+      }
+
 
       const user =
         await env.noctyr_db
@@ -317,6 +380,7 @@ export default {
         )
       }
       catch (e) {
+        
         console.error("JWT ERROR:", e)
 
         return new Response(
