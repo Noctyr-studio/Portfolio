@@ -26,7 +26,7 @@ export default function Hero() {
             </h1>
             <br />
             <p className="mt-4 max-w-2xl text-lg text-white/80">
-              <strong>Developer & Digital Creator | Web Apps, Games & Applied AI</strong>
+              <strong>Software Developer | Web Apps, Games & Applied AI</strong>
               <br /><br />
               I create interactive experiences and products where design, UX, and logic work together. 
               I focus on building systems that not only work, but also feel good to use.
