@@ -65,9 +65,11 @@ export default function Auth({ mode = "login", onClose , setUser}) {
         }),
       });
 
+      console.log("Status:", res.status);
+
       const data = await res.json();
 
-      console.log(data);
+      console.log("Response:", data);
 
       if (data.success) {
         alert(

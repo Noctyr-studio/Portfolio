@@ -337,6 +337,8 @@ export default {
         success: boolean
       }
 
+      console.log("Turnstile response:", verifyData);
+      
       if (!verifyData.success) {
         return new Response(
           JSON.stringify({
